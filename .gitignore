@@ -7,6 +7,7 @@
 
 # Ignore bundler config.
 /sinker-backend/.bundle
+/sinker-backend/vendor/bundle
 
 # Ignore the default SQLite database.
 /sinker-backend/db/*.sqlite3

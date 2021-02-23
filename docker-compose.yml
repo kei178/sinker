@@ -24,6 +24,7 @@ services:
       context: sinker-backend
     volumes:
       - ./sinker-backend:/usr/src/app
+      - ./sinker-backend/vendor/bundle:/usr/local/bundle
     ports:
       - '8080:8080'
     depends_on:
