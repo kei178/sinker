@@ -1,9 +1,5 @@
-require 'net/http'
-
 class PostsController < ApplicationController
   def index
-    uri = URI('https://jsonplaceholder.typicode.com/posts')
-    data = Net::HTTP.get(uri)
-    render json: { posts: JSON.parse(data) }
+    render json: { posts: Post.limit(50) }
   end
 end
