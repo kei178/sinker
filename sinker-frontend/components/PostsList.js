@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import POSTS_QUERY from '../graphql/queries/posts.query';
 
@@ -13,7 +14,14 @@ const PostsList = () => {
       {!posts
         ? null
         : posts.map((post, index) => {
-            return <li key={index}>{post.title}</li>;
+            return (
+              <li key={index}>
+                {post.title}{' '}
+                <Link href={`/posts/${post.id}`}>
+                  <a>[Detail]</a>
+                </Link>
+              </li>
+            );
           })}
     </ul>
   );

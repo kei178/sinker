@@ -3,7 +3,6 @@ import '../styles/globals.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { resolvers, typeDefs } from '../graphql/resolvers';
 import LIST_HIDDEN_QUERY from '../graphql/queries/list-hedden.query';
-import Header from '../components/Header';
 
 const cache = new InMemoryCache();
 cache.writeQuery({
@@ -22,7 +21,6 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
-      <Header />
       <Component {...pageProps} />
     </ApolloProvider>
   );
