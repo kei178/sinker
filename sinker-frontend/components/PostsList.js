@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import POSTS_QUERY from '../graphql/posts.query';
+import POSTS_QUERY from '../graphql/queries/posts.query';
 
 const PostsList = () => {
   const { loading, error, data } = useQuery(POSTS_QUERY);
