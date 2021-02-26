@@ -1,8 +1,18 @@
 import { useQuery } from '@apollo/client';
+import { NextPage } from 'next';
 import POST_QUERY from '../graphql/queries/post.query';
+import { Post } from '../types';
 
-const PostItem = ({ id }) => {
-  const { loading, error, data } = useQuery(POST_QUERY, {
+interface PostItemProps {
+  id: string;
+}
+
+interface PostData {
+  post: Post;
+}
+
+const PostItem: NextPage<PostItemProps> = ({ id }) => {
+  const { loading, error, data } = useQuery<PostData>(POST_QUERY, {
     variables: { id: parseInt(id) },
   });
 

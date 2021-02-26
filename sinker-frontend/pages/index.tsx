@@ -1,9 +1,12 @@
 import { useQuery } from '@apollo/client';
+import { NextPage } from 'next';
 import PostsList from '../components/PostsList';
 import ToggleButton from '../components/ToggleButton';
 import LIST_HIDDEN_QUERY from '../graphql/queries/list-hedden.query';
 
-const Home = () => {
+interface HomeProps {}
+
+const Home: NextPage<HomeProps> = () => {
   const {
     data: { listHidden },
   } = useQuery(LIST_HIDDEN_QUERY);

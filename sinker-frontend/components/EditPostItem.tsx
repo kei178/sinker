@@ -1,13 +1,23 @@
 import { useQuery, useMutation } from '@apollo/client';
+import { NextPage } from 'next';
 import { useState } from 'react';
 import UPDATE_POST from '../graphql/mutations/update-post.mutation';
 import POST_QUERY from '../graphql/queries/post.query';
 
-const EditPostItem = ({ id }) => {
+interface EditPostItemProps {
+  id: string;
+}
+
+interface RailsApiResponse {
+  error?: string;
+}
+
+const EditPostItem: NextPage<EditPostItemProps> = ({ id }) => {
   const [post, setPost] = useState(null);
   const [message, setMessage] = useState('');
 
-  const [updatePost] = useMutation(UPDATE_POST);
+  const [updatePost, mutationResult] = useMutation(UPDATE_POST);
+  const mutationError = mutationResult.error;
   const { loading, error, data } = useQuery(POST_QUERY, {
     variables: { id: parseInt(id) },
   });
@@ -27,7 +37,7 @@ const EditPostItem = ({ id }) => {
   };
 
   const handleSave = async () => {
-    const { error } = await updatePost({
+    await updatePost({
       variables: {
         params: {
           id: parseInt(post.id),
@@ -37,7 +47,9 @@ const EditPostItem = ({ id }) => {
       },
     });
 
-    error ? alert(error) : setMessage('Successfully saved');
+    mutationError
+      ? alert(`Error: ${JSON.stringify(mutationError)}`)
+      : setMessage('Successfully saved');
   };
 
   return (
@@ -53,7 +65,7 @@ const EditPostItem = ({ id }) => {
         <textarea
           name="body"
           value={post.body}
-          rows="10"
+          rows={10}
           onChange={handleChange}
         />
       </span>
