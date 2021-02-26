@@ -3,7 +3,7 @@ import PostItem from '../../components/PostItem';
 
 const Post = ({ id }) => (
   <div>
-    <h1>Post</h1>
+    <h1>POST</h1>
     <PostItem id={id} />
     <hr />
     <Link href="/">
