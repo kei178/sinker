@@ -1,20 +1,17 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { NextPage } from 'next';
 import { useState } from 'react';
-import UPDATE_POST from '../graphql/mutations/update-post.mutation';
-import POST_QUERY from '../graphql/queries/post.query';
+import { UPDATE_POST } from '../graphql/mutations/update-post.mutation';
+import { POST_QUERY } from '../graphql/queries/post.query';
+import { Post } from '../types';
 
 interface EditPostItemProps {
   id: string;
 }
 
-interface RailsApiResponse {
-  error?: string;
-}
-
 const EditPostItem: NextPage<EditPostItemProps> = ({ id }) => {
-  const [post, setPost] = useState(null);
-  const [message, setMessage] = useState('');
+  const [post, setPost] = useState<Post>(null);
+  const [message, setMessage] = useState<string>('');
 
   const [updatePost, mutationResult] = useMutation(UPDATE_POST);
   const mutationError = mutationResult.error;

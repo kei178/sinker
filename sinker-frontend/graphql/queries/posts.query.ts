@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
+import { Post } from '../../types';
 
-const POSTS_QUERY = gql`
+export const POSTS_QUERY = gql`
   query {
     posts {
       id
@@ -9,4 +10,6 @@ const POSTS_QUERY = gql`
   }
 `;
 
-export default POSTS_QUERY;
+export interface PostsData {
+  posts: Post[];
+}

@@ -1,14 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { NextPage } from 'next';
-import POST_QUERY from '../graphql/queries/post.query';
-import { Post } from '../types';
+import { POST_QUERY, PostData } from '../graphql/queries/post.query';
 
 interface PostItemProps {
   id: string;
-}
-
-interface PostData {
-  post: Post;
 }
 
 const PostItem: NextPage<PostItemProps> = ({ id }) => {

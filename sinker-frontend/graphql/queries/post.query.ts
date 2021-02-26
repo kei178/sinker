@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
+import { Post } from '../../types';
 
-const POST_QUERY = gql`
+export const POST_QUERY = gql`
   query($id: ID!) {
     post(id: $id) {
       id
@@ -10,4 +11,6 @@ const POST_QUERY = gql`
   }
 `;
 
-export default POST_QUERY;
+export interface PostData {
+  post: Post;
+}

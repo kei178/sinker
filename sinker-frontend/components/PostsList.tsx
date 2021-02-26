@@ -1,14 +1,9 @@
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import POSTS_QUERY from '../graphql/queries/posts.query';
+import { POSTS_QUERY, PostsData } from '../graphql/queries/posts.query';
 import { NextPage } from 'next';
-import { Post } from '../types';
 
 interface PostsListProps {}
-
-interface PostsData {
-  posts: Post[];
-}
 
 const PostsList: NextPage<PostsListProps> = () => {
   const { loading, error, data } = useQuery<PostsData>(POSTS_QUERY);

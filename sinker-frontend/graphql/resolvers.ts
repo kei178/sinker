@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
-import LIST_HIDDEN_QUERY from './queries/list-hedden.query';
+import { gql, InMemoryCache, Resolvers } from '@apollo/client';
+import { LIST_HIDDEN_QUERY, ListHiddenData } from './queries/list-hedden.query';
 
 // resolvers で利用する型を定義する
 // Mutation に限らず、既存の型を extend できる
@@ -10,10 +10,11 @@ export const typeDefs = gql`
 `;
 
 // readQuery -> writeQuery -> return updated values という流れ
-export const resolvers = {
+export const resolvers: Resolvers = {
   Mutation: {
-    toggleListHidden: (_root, _args, { cache }, _info) => {
-      const { listHidden } = cache.readQuery({
+    toggleListHidden: (_root, _args, ctx, _info) => {
+      const cache: InMemoryCache = ctx.cache;
+      const { listHidden } = cache.readQuery<ListHiddenData>({
         query: LIST_HIDDEN_QUERY,
       });
 

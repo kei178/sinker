@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
+import { Post } from '../../types';
 
-const UPDATE_POST = gql`
+export const UPDATE_POST = gql`
   mutation($params: PostInputType!) {
     updatePost(input: { params: $params }) {
       id
@@ -9,5 +10,3 @@ const UPDATE_POST = gql`
     }
   }
 `;
-
-export default UPDATE_POST;
