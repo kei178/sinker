@@ -1,10 +1,24 @@
-import { useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useState } from 'react';
-import UPDATE_POST from '../../graphql/mutations/update-post.mutation';
+import UPDATE_POST from '../graphql/mutations/update-post.mutation';
+import POST_QUERY from '../graphql/queries/post.query';
 
-const EditPostItem = ({ setIsEditing, currentPost, setCurrentPost }) => {
-  const [post, setPost] = useState(currentPost);
+const EditPostItem = ({ id }) => {
+  const [post, setPost] = useState(null);
+  const [message, setMessage] = useState('');
+
+  const [updatePost] = useMutation(UPDATE_POST);
+  const { loading, error, data } = useQuery(POST_QUERY, {
+    variables: { id: parseInt(id) },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {JSON.stringify(error)}</p>;
+  if (!post) setPost(data.post);
+  if (!post) return null;
+
   const handleChange = (e) => {
+    setMessage('');
     const { name, value } = e.target;
     setPost({
       ...post,
@@ -12,9 +26,8 @@ const EditPostItem = ({ setIsEditing, currentPost, setCurrentPost }) => {
     });
   };
 
-  const [updatePost] = useMutation(UPDATE_POST);
   const handleSave = async () => {
-    const { error, data } = await updatePost({
+    const { error } = await updatePost({
       variables: {
         params: {
           id: parseInt(post.id),
@@ -23,26 +36,20 @@ const EditPostItem = ({ setIsEditing, currentPost, setCurrentPost }) => {
         },
       },
     });
-    if (error) return;
 
-    setCurrentPost(data.updatePost);
-    setIsEditing(false);
+    error ? alert(error) : setMessage('Successfully saved');
   };
 
   return (
     <div>
-      <button
-        onClick={() => {
-          setIsEditing(false);
-        }}
-      >
-        Cancel
-      </button>
-      <button onClick={handleSave}>Save</button>
+      <div>
+        <button onClick={handleSave}>Save</button>
+        {message ? <span className="message">{message}</span> : null}
+      </div>
       <span className="form-field">
         <input name="title" value={post.title} onChange={handleChange} />
       </span>
-      <span>
+      <span className="form-field">
         <textarea
           name="body"
           value={post.body}
@@ -64,6 +71,10 @@ const EditPostItem = ({ setIsEditing, currentPost, setCurrentPost }) => {
           }
           button {
             margin-right: 5px;
+          }
+          span.message {
+            font-size: 0.8rem;
+            color: #0018f9;
           }
         `}
       </style>
