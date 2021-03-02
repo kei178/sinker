@@ -10,3 +10,15 @@ export const UPDATE_POST = gql`
     }
   }
 `;
+
+export interface UpdatePostData {
+  post: Post;
+}
+
+export interface PostInputType {
+  params: {
+    id: number;
+    title?: string;
+    body?: string;
+  };
+}

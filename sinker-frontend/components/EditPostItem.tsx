@@ -1,8 +1,12 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { NextPage } from 'next';
 import { useState } from 'react';
-import { UPDATE_POST } from '../graphql/mutations/update-post.mutation';
-import { POST_QUERY } from '../graphql/queries/post.query';
+import {
+  UPDATE_POST,
+  UpdatePostData,
+  PostInputType,
+} from '../graphql/mutations/update-post.mutation';
+import { PostData, POST_QUERY } from '../graphql/queries/post.query';
 import { Post } from '../types';
 
 interface EditPostItemProps {
@@ -13,9 +17,12 @@ const EditPostItem: NextPage<EditPostItemProps> = ({ id }) => {
   const [post, setPost] = useState<Post>(null);
   const [message, setMessage] = useState<string>('');
 
-  const [updatePost, mutationResult] = useMutation(UPDATE_POST);
+  const [updatePost, mutationResult] = useMutation<
+    UpdatePostData,
+    PostInputType
+  >(UPDATE_POST);
   const mutationError = mutationResult.error;
-  const { loading, error, data } = useQuery(POST_QUERY, {
+  const { loading, error, data } = useQuery<PostData>(POST_QUERY, {
     variables: { id: parseInt(id) },
   });
 
@@ -24,7 +31,9 @@ const EditPostItem: NextPage<EditPostItemProps> = ({ id }) => {
   if (!post) setPost(data.post);
   if (!post) return null;
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setMessage('');
     const { name, value } = e.target;
     setPost({
